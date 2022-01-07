@@ -1,0 +1,25 @@
+.tempo{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  -webkit-box-reflect: below 0px linear-gradient(transparent,#0004);
+  margin-bottom: 200px;
+}
+
+.card{
+  width: 150px;
+  margin: 10px;
+}
+
+.numero{
+  display: block;
+  background-color: #2196f3;
+  font-size: 400%;
+  padding: 10px;
+}
+
+.texto{
+  display: block;
+  background-color:#127fd6;
+  font-size: 200%;
+}

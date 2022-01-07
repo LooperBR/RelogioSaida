@@ -1,0 +1,20 @@
+.loaded{
+  background-color: greenyellow;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.progress_bar{
+  background-color: gray;
+  height: 40px;
+  color: black;
+  vertical-align: middle;
+}
+
+.main_div{
+  text-align: center;
+  width: 90vw;
+}

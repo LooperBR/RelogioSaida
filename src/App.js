@@ -1,65 +1,97 @@
+import "./App.css"
 import { useEffect, useState } from "react";
+import ProgressBar from "./components/ProgressBar";
+import Tempo from "./components/Tempo";
 
 function App() {
 
-  const[segundo,setSegundo] = useState()
+  const[data_final,setData_final] = useState(new Date(2022, 0, 14, 17, 0, 0, 0))
 
-  const[minuto,setMinuto] = useState()
+  const[data_inicial,setData_inicial] = useState(new Date(2022, 0, 7, 0, 0, 0, 0))
 
-  const[hora,setHora] = useState()
+  const[segundo,setSegundo] = useState('')
 
-  const[dia,setDia] = useState()
+  const[minuto,setMinuto] = useState('')
 
-  const data_final = new Date(2022, 0, 14, 17, 0, 0, 0);
+  const[hora,setHora] = useState('')
 
+  const[dia,setDia] = useState('')
 
-  const relogioID = setInterval(function () {
-    let idAtual = relogioID
-    const agora = new Date()
-    const diferenca = data_final.getTime()-agora.getTime()
+  const[porcentagem,setPorcentagem] = useState()
 
-    const diaa = parseInt(diferenca / (1000*60*60*24))
-    var resto = diferenca % (1000*60*60*24)
-
-    const horaa = parseInt(resto / (1000*60*60))
-    resto = resto % (1000*60*60)
-
-    const minutoa = parseInt(resto / (1000*60))
-    resto = resto % (1000*60)
-
-    const segundoa = parseInt(resto / (1000))
-
-    setSegundo(segundoa)
-    setMinuto(minutoa)
-    setHora(horaa)
-    setDia(diaa)
-
-    if(segundo == 3){
-      clearInterval(idAtual)
-    }
-
-  },1000)
-
-
+  function acabou(){
+    console.log("vlw flw")
+  }
   
 
-  console.log(relogioID)
 
-  // setInterval(function () {
-  //   let idDropado = relogioID+40
-  //   if(segundo == 3){
-  //     while(idDropado>0){
-  //       clearInterval(idDropado)
-  //       idDropado--
-  //     }
+  useEffect(()=>{
 
-  //     clearInterval(relogioID)
-  //   }
-  // },500)
+    let inicio = data_inicial.getTime()
+
+    let fim = data_final.getTime()
+
+    let atual = new Date().getTime()
+
+    //let atual = new Date(2022, 0, 14, 0, 0, 0, 0).getTime()
+
+    atual = atual - inicio
+
+    fim = fim - inicio
+
+    inicio = 0
+
+    setPorcentagem(atual/fim)
+
+    const relogioID = setInterval(function () {
+      
+      const agora = new Date()
+      
+      const diferenca = data_final.getTime()-agora.getTime()
+  
+      const diaResult = parseInt(diferenca / (1000*60*60*24))
+      var resto = diferenca % (1000*60*60*24)
+  
+      const horaResult = parseInt(resto / (1000*60*60))
+      resto = resto % (1000*60*60)
+  
+      const minutoResult = parseInt(resto / (1000*60))
+      resto = resto % (1000*60)
+  
+      const segundoResult = parseInt(resto / (1000))
+  
+      setSegundo(segundoResult)
+      setMinuto(minutoResult)
+      setHora(horaResult)
+      setDia(diaResult)
+  
+    },1000)
+
+    if((segundo === 0 && minuto === 0 && hora === 0 && dia === 0)||segundo<0){
+      console.log("fudeu")
+      setSegundo(0)
+      setMinuto(0)
+      setHora(0)
+      setDia(0)
+
+      acabou()
+      
+      clearInterval(relogioID)
+    }
+
+    return ()=>{
+      clearInterval(relogioID)
+    }
+
+  },[segundo, minuto, hora, dia, data_final,data_inicial])
 
   return (
-    <div>
-      <p>{dia}:{hora}:{minuto}:{segundo}</p>
+    <div className="main_div">
+      {/* <p>Inicial:{data_inicial.toDateString()}</p>
+      <p>Final:{data_final.toDateString()}</p>
+      <p>{dia}:{hora}:{minuto}:{segundo}</p> */}
+      <Tempo dia={dia} hora={hora} minuto={minuto} segundo={segundo}/>
+      <ProgressBar porcentagem={porcentagem*100} />
     </div>
   );
 }
