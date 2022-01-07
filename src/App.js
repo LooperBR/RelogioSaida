@@ -5,9 +5,9 @@ import Tempo from "./components/Tempo";
 
 function App() {
 
-  const[data_final,setData_final] = useState(new Date(2022, 0, 14, 17, 0, 0, 0))
+  const[data_final] = useState(new Date(2022, 0, 14, 17, 0, 0, 0))
 
-  const[data_inicial,setData_inicial] = useState(new Date(2022, 0, 7, 0, 0, 0, 0))
+  const[data_inicial] = useState(new Date(2022, 0, 7, 0, 0, 0, 0))
 
   const[segundo,setSegundo] = useState('')
 
