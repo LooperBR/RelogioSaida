@@ -92,6 +92,7 @@ function App() {
       <p>{dia}:{hora}:{minuto}:{segundo}</p> */}
       <Tempo dia={dia} hora={hora} minuto={minuto} segundo={segundo}/>
       <ProgressBar porcentagem={porcentagem*100} />
+      <a href="https://github.com/LooperBR" style={{textDecoration: "none",color:"#060a1f"}}>se fode ai</a>
     </div>
   );
 }
