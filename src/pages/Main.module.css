@@ -1,0 +1,15 @@
+.main_div{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  height: 100vh;
+  align-items:center;
+  flex-direction: column;
+}
+
+.transicao{
+  transition: 3s;
+  width: 100vw;
+  height: 100vh;
+  color: #060a1f;
+}

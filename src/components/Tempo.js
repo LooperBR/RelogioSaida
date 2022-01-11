@@ -1,14 +1,14 @@
 import styles from './Tempo.module.css'
 
-function Tempo({dia,hora,minuto,segundo}){
+function Tempo({tempo,visibility}){
 
-  const diaCorrigido = (dia < 10 ? "0" : "")+dia
-  const horaCorrigido = (hora < 10 ? "0" : "")+hora
-  const minutoCorrigido = (minuto < 10 ? "0" : "")+minuto
-  const segundoCorrigido = (segundo < 10 ? "0" : "")+segundo
+  const diaCorrigido = (tempo.dia < 10 ? "0" : "")+tempo.dia
+  const horaCorrigido = (tempo.hora < 10 ? "0" : "")+tempo.hora
+  const minutoCorrigido = (tempo.minuto < 10 ? "0" : "")+tempo.minuto
+  const segundoCorrigido = (tempo.segundo < 10 ? "0" : "")+tempo.segundo
 
   return(
-    <div className={styles.tempo}>
+    <div className={styles.tempo} style={visibility}>
       <div className={styles.card}>
         <span className={styles.numero}>
           {diaCorrigido}

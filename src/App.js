@@ -1,7 +1,8 @@
 import "./App.css"
-import { useEffect, useState } from "react";
-import ProgressBar from "./components/ProgressBar";
-import Tempo from "./components/Tempo";
+import { useEffect, useRef, useState } from "react";
+import {BrowserRouter as Router, Routes, Route, useNavigate} from 'react-router-dom'
+import Main from "./pages/Main";
+import End from "./pages/End"
 
 function App() {
 
@@ -9,21 +10,57 @@ function App() {
 
   const[data_inicial] = useState(new Date(2022, 0, 7, 0, 0, 0, 0))
 
-  const[segundo,setSegundo] = useState('')
-
-  const[minuto,setMinuto] = useState('')
-
-  const[hora,setHora] = useState('')
-
-  const[dia,setDia] = useState('')
+  const [tempo,setTempo] = useState(
+    {
+      segundo:1,
+      minuto:'',
+      hora:'',
+      dia:'',
+    }
+  )
 
   const[porcentagem,setPorcentagem] = useState()
 
-  function acabou(){
-    console.log("vlw flw")
+  const relogioID = useRef()
+
+  function verificaTempo(){
+    console.log(tempo.segundo)
+    if(tempo.segundo==0 && tempo.minuto==0 && tempo.hora==0 && tempo.dia==0){
+      clearInterval(relogioID.current)
+    }
   }
   
+  useEffect(()=>{
+    relogioID.current = setInterval(function () {
+      
+      const agora = new Date()
+      
+      const diferenca = data_final.getTime()-agora.getTime()
+  
+      const diaResult = parseInt(diferenca / (1000*60*60*24))
+      var resto = diferenca % (1000*60*60*24)
+  
+      const horaResult = parseInt(resto / (1000*60*60))
+      resto = resto % (1000*60*60)
+  
+      const minutoResult = parseInt(resto / (1000*60))
+      resto = resto % (1000*60)
+  
+      const segundoResult = parseInt(resto / (1000))
+  
+      setTempo(
+        {
+          segundo:segundoResult,
+          minuto:minutoResult,
+          hora:horaResult,
+          dia:diaResult,
+        }
+      )
+  
+    },1000)
 
+    
+  },[])
 
   useEffect(()=>{
 
@@ -43,57 +80,20 @@ function App() {
 
     setPorcentagem(atual/fim)
 
-    const relogioID = setInterval(function () {
-      
-      const agora = new Date()
-      
-      const diferenca = data_final.getTime()-agora.getTime()
-  
-      const diaResult = parseInt(diferenca / (1000*60*60*24))
-      var resto = diferenca % (1000*60*60*24)
-  
-      const horaResult = parseInt(resto / (1000*60*60))
-      resto = resto % (1000*60*60)
-  
-      const minutoResult = parseInt(resto / (1000*60))
-      resto = resto % (1000*60)
-  
-      const segundoResult = parseInt(resto / (1000))
-  
-      setSegundo(segundoResult)
-      setMinuto(minutoResult)
-      setHora(horaResult)
-      setDia(diaResult)
-  
-    },1000)
+    //console.log(tempo.segundo)
 
-    if((segundo === 0 && minuto === 0 && hora === 0 && dia === 0)||segundo<0){
-      console.log("fudeu")
-      setSegundo(0)
-      setMinuto(0)
-      setHora(0)
-      setDia(0)
+    verificaTempo()
 
-      acabou()
-      
-      clearInterval(relogioID)
-    }
-
-    return ()=>{
-      clearInterval(relogioID)
-    }
-
-  },[segundo, minuto, hora, dia, data_final,data_inicial])
+  },[tempo.segundo])
 
   return (
-    <div className="main_div">
-      {/* <p>Inicial:{data_inicial.toDateString()}</p>
-      <p>Final:{data_final.toDateString()}</p>
-      <p>{dia}:{hora}:{minuto}:{segundo}</p> */}
-      <Tempo dia={dia} hora={hora} minuto={minuto} segundo={segundo}/>
-      <ProgressBar porcentagem={porcentagem*100} />
-      <a href="https://github.com/LooperBR" style={{textDecoration: "none",color:"#060a1f"}}>se fode ai</a>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main tempo={tempo} porcentagem={porcentagem}/>}/>
+        <Route path="/fim" element={<End />}/>
+      </Routes>
+      
+    </Router>
   );
 }
 
